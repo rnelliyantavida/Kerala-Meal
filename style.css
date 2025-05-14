@@ -1,0 +1,29 @@
+/* body {
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+}
+.home-content span {
+  color: #ffb347;
+}
+.menu-item img {
+  transition: transform 0.3s ease;
+}
+.menu-item img:hover {
+  transform: scale(1.05);
+}
+.menu-section,
+.review-section,
+.about {
+  animation: fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} */
