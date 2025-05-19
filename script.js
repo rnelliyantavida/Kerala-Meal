@@ -1,6 +1,27 @@
 const app = document.getElementById("app");
 const cartCount = document.getElementById("cart-count");
+
 const cart = [];
+function updateCartCount(count) {
+  const mobileCount = document.getElementById("cart-count");
+  const desktopCount = document.getElementById("cart");
+  console.log(desktopCount);
+
+  if (mobileCount) mobileCount.textContent = count;
+  if (desktopCount) desktopCount.textContent = count;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateCartCount(cartItems.length); // or localStorage count
+});
+
+// Example usage:
+let cartItems = [];
+
+function addToCart(itemName) {
+  cartItems.push(itemName);
+  updateCartCount(cartItems.length);
+}
 
 const menuItems = [
   {

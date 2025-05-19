@@ -17,11 +17,22 @@
   </head>
   <body>
     <header class="header">
-      <a href="#" class="logo">
+      <a href="#/home" class="logo">
         <i class="bx bxs-bowl-hot"></i>
         <span class="logo-full">Malabar Palate</span>
       </a>
-      <div class="menu-toggle" id="menu-toggle"><i class="bx bx-menu"></i></div>
+
+      <!-- Cart Icon for Mobile View -->
+      <div class="mobile-icons">
+        <div class="cart-icon" onclick="window.location='#/cart'">
+          <i class="bx bx-cart"></i>
+          <span id="cart-count">0</span>
+        </div>
+        <div class="menu-toggle" id="menu-toggle">
+          <i class="bx bx-menu"></i>
+        </div>
+      </div>
+
       <nav class="navbar" id="navbar">
         <a href="#/home">Home</a>
         <a href="#/menu">Menu</a>
