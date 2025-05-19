@@ -1,3 +1,11 @@
+window.addEventListener("hashchange", () => {
+  window.scroll(0, 0);
+});
+
+// Also scroll to top on initial load if needed
+window.addEventListener("load", () => {
+  window.scroll(0, 0);
+});
 const app = document.getElementById("app");
 const cartCount = document.getElementById("cart-count");
 
