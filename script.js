@@ -138,7 +138,13 @@ const routes = {
   `,
   cart: () => {
     if (cart.length === 0) {
-      return `<section class="review-section"><h1 class="sub-title">Your <span>Cart</span></h1><p>Your cart is empty. Add something tasty!</p></section>`;
+      return `
+      <section class="cart-page empty">
+        <h1>Your <span>Cart</span></h1>
+        <p>Your cart is currently empty. Let's fix that!</p>
+        <a href="#/menu" class="btn primary">Browse Menu</a>
+      </section>
+    `;
     }
 
     const itemCounts = {};
@@ -161,28 +167,40 @@ const routes = {
     const totalAmount = itemDetails.reduce((sum, item) => sum + item.total, 0);
 
     return `
-      <section class="menu-section">
-        <h1 class="sub-title">Your <span>Order</span></h1>
-        <div class="services-list">
+    <section class="cart-page">
+      <h1>Your <span>Cart</span></h1>
+      <div class="cart-container">
+        <div class="cart-items">
           ${itemDetails
             .map(
               (item) => `
-            <div class="menu-item">
-              <h2>${item.name}</h2>
-              <p>Quantity: ${item.quantity}</p>
-              <p>Price: $${item.price}</p>
-              <p><strong>Subtotal: $${item.total}</strong></p>
-            </div>
-          `
+              <div class="cart-card">
+                <div class="cart-card-content">
+                  <div class="item-name">${item.name}</div>
+                  <div class="item-info">
+                    <span>Qty: ${item.quantity}</span>
+                    <span>Price: $${item.price.toFixed(2)}</span>
+                    <span class="subtotal">Subtotal: $${item.total.toFixed(
+                      2
+                    )}</span>
+                  </div>
+                </div>
+              </div>
+            `
             )
             .join("")}
         </div>
-        <h2 style="margin-top: 40px; text-align:center;">Total: $${totalAmount}</h2>
-        <div style="text-align:center; margin-top: 20px;">
-          <button onclick="sendOrder()" class="btn-box">Send Order via WhatsApp</button>
+
+        <div class="cart-summary">
+          <h2>Order Summary</h2>
+          <p>Total Items: <strong>${cart.length}</strong></p>
+          <p>Total: <strong>$${totalAmount.toFixed(2)}</strong></p>
+          <button class="btn primary" onclick="sendOrder()">Send Order via WhatsApp</button>
+          <a href="#/menu" class="btn secondary">Add More Items</a>
         </div>
-      </section>
-    `;
+      </div>
+    </section>
+  `;
   },
 };
 
