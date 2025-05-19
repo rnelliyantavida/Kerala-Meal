@@ -4,75 +4,116 @@ const cart = [];
 
 const menuItems = [
   {
-    name: "Kerala Sadya",
+    name: "Kaai Pola",
     price: 10,
-    image:
-      "https://www.archanaskitchen.com/images/archanaskitchen/1-Author/Sibyl_Sunitha/Kerala_Sadya.jpg",
+    image: "./assets/kaaypola.png",
+    description:
+      "A delicious banana and egg dessert from Malabar, rich and sweet.",
   },
   {
-    name: "Beef Fry with Porotta",
+    name: "Malabar Curry with Porotta",
     price: 8,
-    image:
-      "https://www.keralatourism.org/images/enjoy-kannur/kannur/beef-fry.jpg",
+    image: "./assets/porotta_curry.png",
+    description:
+      "Flaky Kerala-style porotta served with spicy, slow-cooked Malabar curry.",
   },
   {
-    name: "Fish Curry Meal",
+    name: "Appam",
     price: 9,
-    image:
-      "https://www.tastycircle.com/wp-content/uploads/2021/06/Kerala-style-fish-curry.jpg",
+    image: "./assets/appam.jpg",
+    description:
+      "Soft and lacy fermented rice pancakes, perfect with any curry.",
   },
 ];
 
 const routes = {
   home: () => `
-    <section class="home">
-      <div class="home-content">
-        <h3>Welcome to</h3>
-        <h1>Kerala Home Meals</h1>
-        <h3>Authentic, homemade food from <span>God's Own Country</span></h3>
-        <p>We bring you the warmth and love of Kerala through traditional home-cooked meals. Every dish is prepared fresh in our kitchen with handpicked spices and ingredients just like how it's made back home in Kerala. Perfect for those craving comfort food and authentic flavors.</p>
-        <img src="https://www.keralatourism.org/images/homecontentimage/desktop/sadya.jpg" alt="Kerala Meal" style="max-width: 100%; border-radius: 12px; margin-top: 20px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);">
-        <div style="margin-top: 30px; display: flex; gap: 20px; flex-wrap: wrap;">
-          <a href="#/menu" class="btn-icon"><i class="bx bx-restaurant"></i> Menu</a>
-          <a href="#/review" class="btn-icon"><i class="bx bx-star"></i> Reviews</a>
-          <a href="#/contact" class="btn-icon"><i class="bx bx-phone-call"></i> Contact</a>
+      <section class="home">
+        <div class="home-content">
+          <h3 class="fade-in">Welcome to</h3>
+          <h1 class="fade-in delay-1">Kerala Home Meals</h1>
+          <h3 class="fade-in delay-2">Authentic, homemade food from <span>God's Own Country</span></h3>
+          <p class="fade-in delay-3">
+            Dive into the flavors of Kerala — where every meal is a celebration. Our home-cooked dishes are crafted with love, handpicked spices, and authentic recipes passed down generations. Experience the warmth of a Keralite kitchen in every bite.
+          </p>
+          <img src="./assets/malabar_palate.png" alt="Kerala Meal" class="home-img fade-in delay-4">
+          <div class="btn-group fade-in delay-5">
+            <a href="#/menu" class="btn-icon"><i class="bx bx-restaurant"></i> Menu</a>
+            <a href="#/contact" class="btn-icon"><i class="bx bx-phone-call"></i> Contact</a>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
   `,
   menu: () => `
-    <section class="menu-section">
-      <h1 class="sub-title">Our <span>Menu</span></h1>
-      <div class="services-list">
-        ${menuItems
-          .map(
-            (item) => `
-          <div class="menu-item">
-            <img src="${item.image}" alt="${item.name}" style="width:100%; border-radius:10px; margin-bottom:10px;" />
-            <h2>${item.name}</h2>
-            <p>Price: $${item.price}</p>
-            <button onclick="addToCart('${item.name}')" class="btn-box">Add to Cart</button>
-          </div>
-        `
-          )
-          .join("")}
-      </div>
-    </section>
+      <section class="menu-section"> 
+        <h1 class="sub-title fade-in">Our <span>Menu</span></h1>
+        <div class="search-box fade-in">
+          <input
+            type="text"
+            id="menuSearch"
+            placeholder="Search for a dish..."
+            oninput="filterMenu()"
+          />
+        </div>
+        <div class="services-list">
+          ${menuItems
+            .map(
+              (item) => `
+            <div class="menu-item fade-in">
+              <img src="${item.image}" alt="${item.name}" />
+              <h2>${item.name}</h2>
+              <p class="description">${item.description}</p>
+              <p class="price">$${item.price.toFixed(2)}</p>
+              <button onclick="addToCart('${
+                item.name
+              }')" class="btn-box">Add to Cart</button>
+            </div>
+          `
+            )
+            .join("")}
+        </div>
+      </section>
   `,
   review: () => `
-    <section class="review-section">
-      <h1 class="sub-title">Customer <span>Reviews</span></h1>
-      <p>"Absolutely loved the Sadya! Reminded me of home." – Anjali K.</p>
-      <p>"The beef fry was perfectly spiced. Thank you for bringing Kerala to my doorstep!" – Ravi M.</p>
-    </section>
+      <section class="review-section">
+        <h1 class="sub-title fade-in">Customer <span>Reviews</span></h1>
+
+        <!-- Review Form -->
+        <div class="review-form fade-in delay-1">
+          <input type="text" id="reviewerName" placeholder="Your Name" required />
+          <textarea id="reviewText" placeholder="Write your review..." required></textarea>
+          <button onclick="addReview()">Submit Review</button>
+        </div>
+
+        <!-- Review Display Area -->
+        <div id="reviewList" class="review-list fade-in delay-2">
+          <div class="review-card">
+            <p>“Absolutely loved the Sadya! Reminded me of home.”</p>
+            <span>– Anjali K.</span>
+          </div>
+          <div class="review-card">
+            <p>“The beef fry was perfectly spiced. Thank you for bringing Kerala to my doorstep!”</p>
+            <span>– Ravi M.</span>
+          </div>
+        </div>
+      </section>
   `,
   contact: () => `
-    <section class="review-section">
-      <h1 class="sub-title">Get in <span>Touch</span></h1>
-      <p>We’re happy to take your orders and answer any questions! Contact us via WhatsApp or email for the best Kerala home-cooked meals.</p>
-      <p><strong>Email:</strong> contact@keralahomemeals.com</p>
-      <p><strong>Phone:</strong> +91-XXXXXXXXXX</p>
-    </section>
+      <section class="contact-section">
+        <h1 class="sub-title fade-in">Get in <span>Touch</span></h1>
+        <p class="fade-in delay-1">
+          We’re happy to take your orders and answer any questions! Reach out to us on WhatsApp or email for the best Kerala home-cooked meals.
+        </p>
+        <div class="contact-info fade-in delay-2">
+          <p><strong>Email:</strong> <a href="mailto:contact@keralahomemeals.com">contact@keralahomemeals.com</a></p>
+          <p><strong>Phone:</strong> <a href="https://wa.me/91XXXXXXXXXX" target="_blank">+91-XXXXXXXXXX</a></p>
+        </div>
+        <div class="contact-buttons fade-in delay-3">
+          <a href="https://wa.me/91XXXXXXXXXX" class="btn-icon"><i class="bx bxl-whatsapp"></i> WhatsApp Us</a>
+          <a href="mailto:contact@keralahomemeals.com" class="btn-icon"><i class="bx bxl-gmail"></i> Send Email</a>
+        </div>
+      </section>
+
   `,
   cart: () => {
     if (cart.length === 0) {
@@ -128,6 +169,46 @@ document.getElementById("menu-toggle").addEventListener("click", () => {
   document.getElementById("navbar").classList.toggle("active");
 });
 
+function filterMenu() {
+  const input = document.getElementById("menuSearch").value.toLowerCase();
+  const items = document.querySelectorAll(".menu-item");
+
+  items.forEach((item) => {
+    const name = item.querySelector("h2").textContent.toLowerCase();
+    const description = item
+      .querySelector(".description")
+      .textContent.toLowerCase();
+
+    if (name.includes(input) || description.includes(input)) {
+      item.style.display = "block";
+    } else {
+      item.style.display = "none";
+    }
+  });
+}
+function addReview() {
+  const name = document.getElementById("reviewerName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+  const reviewList = document.getElementById("reviewList");
+
+  if (!name || !text) {
+    alert("Please fill in both your name and review.");
+    return;
+  }
+
+  const reviewCard = document.createElement("div");
+  reviewCard.className = "review-card";
+  reviewCard.innerHTML = `
+    <p>“${text}”</p>
+    <span>– ${name}</span>
+  `;
+
+  reviewList.prepend(reviewCard);
+
+  // Clear form fields
+  document.getElementById("reviewerName").value = "";
+  document.getElementById("reviewText").value = "";
+}
 function addToCart(itemName) {
   cart.push(itemName);
   cartCount.textContent = cart.length;
