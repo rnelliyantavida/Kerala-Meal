@@ -38,6 +38,7 @@ const menuItems = [
     image: "./assets/kaaypola.png",
     description:
       "A delicious banana and egg dessert from Malabar, rich and sweet.",
+    category: "Dessert",
   },
   {
     name: "Malabar Curry with Porotta",
@@ -45,6 +46,7 @@ const menuItems = [
     image: "./assets/porotta_curry.png",
     description:
       "Flaky Kerala-style porotta served with spicy, slow-cooked Malabar curry.",
+    category: "Curry",
   },
   {
     name: "Appam",
@@ -52,6 +54,7 @@ const menuItems = [
     image: "./assets/appam.jpg",
     description:
       "Soft and lacy fermented rice pancakes, perfect with any curry.",
+    category: "Bread",
   },
 ];
 
@@ -83,6 +86,13 @@ const routes = {
             placeholder="Search for a dish..."
             oninput="filterMenu()"
           />
+        </div>
+        <div class="category-filters fade-in">
+          <button class="filter-btn active" onclick="filterCategory('All')">All</button>
+          <button class="filter-btn" onclick="filterCategory('Curry')">Curry</button>
+          <button class="filter-btn" onclick="filterCategory('Bread')">Bread</button>
+          <button class="filter-btn" onclick="filterCategory('Rice')">Rice</button>
+          <button class="filter-btn" onclick="filterCategory('Dessert')">Dessert</button>
         </div>
         <div class="services-list">
           ${menuItems
@@ -214,7 +224,7 @@ const routes = {
           <h2>Order Summary</h2>
           <p>Total Items: <strong>${cart.length}</strong></p>
           <p>Total: <strong>$${totalAmount.toFixed(2)}</strong></p>
-          <button class="btn primary" onclick="openModal()">Send Order</button>
+          <button class="btn primary" onclick="openModal()">Send Order via Email</button>
           <a href="#/menu" class="btn secondary">Add More Items</a>
         </div>
       </div>
@@ -271,6 +281,37 @@ function addToCart(itemName) {
   cart.push(itemName);
   cartCount.textContent = cart.length;
 }
+function filterCategory(category) {
+  const buttons = document.querySelectorAll(".filter-btn");
+  buttons.forEach((btn) => btn.classList.remove("active"));
+  document
+    .querySelector(`.filter-btn[onclick*="${category}"]`)
+    .classList.add("active");
+
+  const filteredItems =
+    category === "All"
+      ? menuItems
+      : menuItems.filter((item) => item.category === category);
+
+  document.querySelector(".services-list").innerHTML = filteredItems
+    .map(
+      (item) => `
+      <div class="menu-item fade-in">
+        <img src="${item.image}" alt="${item.name}" />
+        <h2>${item.name}</h2>
+        <p class="description">${item.description}</p>
+        <p class="price">$${item.price.toFixed(2)}</p>
+        <button onclick="addToCart('${
+          item.name
+        }')" class="btn-box">Add to Cart</button>
+      </div>
+    `
+    )
+    .join("");
+}
+document.addEventListener("DOMContentLoaded", () => {
+  filterCategory("All");
+});
 
 function sendOrder() {
   if (cart.length === 0) return alert("Your cart is empty!");

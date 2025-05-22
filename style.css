@@ -457,6 +457,32 @@ body {
     padding: 10px 18px;
   }
 }
+/* Category section styling */
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.filter-btn {
+  padding: 10px 20px;
+  border: 2px solid #14b8a6;
+  background-color: white;
+  color: #14b8a6;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background-color: #14b8a6;
+  color: white;
+  box-shadow: 0 0 10px #14b8a6;
+}
 
 /* searchfield */
 .search-box {
