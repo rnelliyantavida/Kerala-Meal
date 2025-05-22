@@ -878,3 +878,130 @@ body {
     top: 120px;
   }
 }
+
+/* Modal styling */
+.modal {
+  display: none; /* default hidden */
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  font-family: "Segoe UI", sans-serif;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal.show {
+  display: flex;
+}
+
+/* Modal content */
+.modal-content {
+  background: #fffdf9;
+  color: #333;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  padding: 30px 25px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: slideUpFade 0.4s ease-out;
+  box-sizing: border-box;
+}
+
+/* Close button */
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.modal-close:hover {
+  color: #000;
+}
+
+/* Title */
+.modal-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #008080;
+  text-align: center;
+}
+
+/* Form labels & inputs */
+.modal-form label {
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: block;
+  font-size: 14px;
+  color: #444;
+}
+.modal-form input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  font-size: 15px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+.modal-form input:focus {
+  border-color: #008080;
+  outline: none;
+}
+
+/* Submit button */
+.modal-form button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #008080;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.modal-form button[type="submit"]:hover:enabled {
+  background-color: #006666;
+}
+.modal-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Animation */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile padding + prevent modal content overflow */
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 25px 20px;
+    margin: auto;
+  }
+  .modal-title {
+    font-size: 20px;
+  }
+}
