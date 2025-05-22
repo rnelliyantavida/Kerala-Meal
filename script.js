@@ -214,7 +214,7 @@ const routes = {
           <h2>Order Summary</h2>
           <p>Total Items: <strong>${cart.length}</strong></p>
           <p>Total: <strong>$${totalAmount.toFixed(2)}</strong></p>
-          <button class="btn primary" onclick="openModal()">Send Order via Email</button>
+          <button class="btn primary" onclick="openModal()">Send Order</button>
           <a href="#/menu" class="btn secondary">Add More Items</a>
         </div>
       </div>
