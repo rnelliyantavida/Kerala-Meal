@@ -392,7 +392,7 @@ document.getElementById("order-form").addEventListener("submit", function (e) {
   e.preventDefault();
   sendButton.disabled = true;
 
-  emailjs.sendForm("service_8fwvtrx", "template_p4h22i6", this).then(
+  emailjs.sendForm("service_hy93ivp", "template_p4h22i6", this).then(
     () => {
       cart = [];
       cartCount.textContent = cart.length;
