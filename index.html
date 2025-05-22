@@ -78,52 +78,6 @@
       <i class="bx bx-cart"></i> Send Order (<span id="cart-count">0</span>)
     </div> -->
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script>
-      emailjs.init("TXDSCYxWtmZPDrkDu"); // replace with your actual public key
-
-      const nameInput = document.getElementById("customer-name");
-      const emailInput = document.getElementById("customer-email");
-      const sendButton = document.getElementById("send-button");
-
-      function openModal() {
-        document.getElementById("order-modal").classList.add("show");
-        document.getElementById("order-details").value =
-          localStorage.getItem("orderDetails") || "No order";
-        validateInputs();
-      }
-
-      function closeModal() {
-        document.getElementById("order-modal").classList.remove("show");
-      }
-
-      function validateInputs() {
-        sendButton.disabled = !(
-          nameInput.value.trim() && emailInput.value.trim()
-        );
-      }
-
-      nameInput.addEventListener("input", validateInputs);
-      emailInput.addEventListener("input", validateInputs);
-
-      document
-        .getElementById("order-form")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          sendButton.disabled = true;
-
-          emailjs.sendForm("service_8fwvtrx", "template_p4h22i6", this).then(
-            () => {
-              alert("✅ Order sent successfully!");
-              closeModal();
-            },
-            (error) => {
-              alert("❌ Failed to send order. Please try again.");
-              console.error(error);
-              sendButton.disabled = false;
-            }
-          );
-        });
-    </script>
 
     <script src="script.js"></script>
   </body>

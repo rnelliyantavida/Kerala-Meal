@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
 const app = document.getElementById("app");
 const cartCount = document.getElementById("cart-count");
 
-const cart = [];
+let cart = [];
 function updateCartCount(count) {
   const mobileCount = document.getElementById("cart-count");
   const desktopCount = document.getElementById("cart");
@@ -322,3 +322,48 @@ function router() {
 
 window.addEventListener("hashchange", router);
 window.addEventListener("load", router);
+
+emailjs.init("TXDSCYxWtmZPDrkDu"); // replace with your actual public key
+
+const nameInput = document.getElementById("customer-name");
+const emailInput = document.getElementById("customer-email");
+const sendButton = document.getElementById("send-button");
+
+function openModal() {
+  document.getElementById("order-modal").classList.add("show");
+  document.getElementById("order-details").value =
+    localStorage.getItem("orderDetails") || "No order";
+  validateInputs();
+}
+
+function closeModal() {
+  document.getElementById("order-modal").classList.remove("show");
+}
+
+function validateInputs() {
+  sendButton.disabled = !(nameInput.value.trim() && emailInput.value.trim());
+}
+
+nameInput.addEventListener("input", validateInputs);
+emailInput.addEventListener("input", validateInputs);
+
+document.getElementById("order-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  sendButton.disabled = true;
+
+  emailjs.sendForm("service_8fwvtrx", "template_p4h22i6", this).then(
+    () => {
+      cart = [];
+      cartCount.textContent = cart.length;
+      localStorage.removeItem("orderDetails");
+      // alert("✅ Order sent successfully!");
+      closeModal();
+      window.location.hash = "#/home";
+    },
+    (error) => {
+      alert("❌ Failed to send order. Please try again.");
+      console.error(error);
+      sendButton.disabled = false;
+    }
+  );
+});
