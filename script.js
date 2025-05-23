@@ -128,13 +128,6 @@ const routes = {
         <div id="reviewList" class="review-list fade-in delay-2">
           <!-- Reviews will be dynamically inserted here -->
         </div>
-
-        <!-- Pagination Buttons -->
-        // <div id="pagination" style="margin-top:20px; text-align:center;">
-        //   <button id="prevPage" onclick="changePage(-1)" disabled>Previous</button>
-        //   <span id="pageInfo"></span>
-        //   <button id="nextPage" onclick="changePage(1)" disabled>Next</button>
-        // </div>
       </section>
   `,
   contact: () => `
@@ -421,6 +414,12 @@ document.getElementById("order-form").addEventListener("submit", function (e) {
 });
 
 // fetch reviews
+
+// <div id="pagination" style="margin-top:20px; text-align:center;">
+//   <button id="prevPage" onclick="changePage(-1)" disabled>Previous</button>
+//   <span id="pageInfo"></span>
+//   <button id="nextPage" onclick="changePage(1)" disabled>Next</button>
+// </div>
 const apiBase = "https://review-api-qvgb.onrender.com/api/reviews";
 let currentPage = 1;
 let totalPages = 1;
