@@ -126,15 +126,15 @@ const routes = {
 
         <!-- Review Display Area -->
         <div id="reviewList" class="review-list fade-in delay-2">
-          <div class="review-card">
-            <p>“Absolutely loved the Sadya! Reminded me of home.”</p>
-            <span>– Anjali K.</span>
-          </div>
-          <div class="review-card">
-            <p>“The beef fry was perfectly spiced. Thank you for bringing Kerala to my doorstep!”</p>
-            <span>– Ravi M.</span>
-          </div>
+          <!-- Reviews will be dynamically inserted here -->
         </div>
+
+        <!-- Pagination Buttons -->
+        // <div id="pagination" style="margin-top:20px; text-align:center;">
+        //   <button id="prevPage" onclick="changePage(-1)" disabled>Previous</button>
+        //   <span id="pageInfo"></span>
+        //   <button id="nextPage" onclick="changePage(1)" disabled>Next</button>
+        // </div>
       </section>
   `,
   contact: () => `
@@ -408,3 +408,102 @@ document.getElementById("order-form").addEventListener("submit", function (e) {
     }
   );
 });
+
+// fetch reviews
+const apiBase = "https://review-api-qvgb.onrender.com/api/reviews";
+let currentPage = 1;
+let totalPages = 1;
+
+// Fetch and render reviews for current page
+async function fetchReviews(page = 1) {
+  try {
+    const res = await fetch(`${apiBase}?page=${page}`);
+    const data = await res.json();
+    currentPage = data.page;
+    totalPages = data.pages;
+    renderReviews(data.reviews);
+    updatePagination();
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+  }
+}
+
+// Render reviews in the reviewList container
+function renderReviews(reviews) {
+  const reviewList = document.getElementById("reviewList");
+  reviewList.innerHTML = ""; // clear previous
+
+  if (reviews.length === 0) {
+    reviewList.innerHTML = "<p>No reviews yet. Be the first to add one!</p>";
+    return;
+  }
+
+  reviews.forEach((review) => {
+    const reviewCard = document.createElement("div");
+    reviewCard.className = "review-card";
+    reviewCard.innerHTML = `
+        <p>“${escapeHtml(review.text)}”</p>
+        <span>– ${escapeHtml(review.name)}</span>
+      `;
+    reviewList.appendChild(reviewCard);
+  });
+}
+
+// Update pagination buttons and info
+function updatePagination() {
+  document.getElementById(
+    "pageInfo"
+  ).textContent = `Page ${currentPage} of ${totalPages}`;
+  document.getElementById("prevPage").disabled = currentPage <= 1;
+  document.getElementById("nextPage").disabled = currentPage >= totalPages;
+}
+
+// Change page by delta (-1 or +1)
+function changePage(delta) {
+  const newPage = currentPage + delta;
+  if (newPage >= 1 && newPage <= totalPages) {
+    fetchReviews(newPage);
+  }
+}
+
+// Escape HTML to avoid XSS
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Submit a new review
+async function addReview() {
+  const name = document.getElementById("reviewerName").value.trim();
+  const text = document.getElementById("reviewText").value.trim();
+
+  if (!name || !text) {
+    alert("Please enter both your name and review.");
+    return;
+  }
+
+  try {
+    const res = await fetch(apiBase, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, text }),
+    });
+
+    if (!res.ok) throw new Error("Failed to submit review");
+
+    // Clear form
+    document.getElementById("reviewerName").value = "";
+    document.getElementById("reviewText").value = "";
+
+    // Refresh reviews to show new one, assuming new reviews show on first page
+    fetchReviews(1);
+    alert("Thank you for your review!");
+  } catch (error) {
+    console.error("Error submitting review:", error);
+    alert("Failed to submit review, please try again.");
+  }
+}
+
+// Initial fetch on page load
+fetchReviews();
