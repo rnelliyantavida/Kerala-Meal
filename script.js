@@ -65,12 +65,26 @@ const menuItems = [
     category: "Curry",
   },
   {
-    name: "Puttu and Kadala",
+    name: "Puttu and Kadala Curry",
     price: 9,
-    image: "./assets/Putt and kadala.png",
+    image: "./assets/Puttu and kadala curry.png",
     description:
       "Steamed rice cake layered with coconut, served with spicy black chickpeas.",
-    category: "Rice",
+    category: "Popular",
+  },
+  {
+    name: "Pprotta and Beef",
+    price: 9,
+    image: "./assets/Porotta and beef.png",
+    description: "Flaky Kerala-style bread served with spicy beef curry.",
+    category: "Popular",
+  },
+  {
+    name: "Thalassery Biriyani",
+    price: 9,
+    image: "./assets/Thalassery biriyani.png",
+    description: "Aromatic rice dish with marinated meat, spices, and saffron.",
+    category: "Popular",
   },
 ];
 
@@ -105,6 +119,7 @@ const routes = {
         </div>
         <div class="category-filters fade-in">
           <button class="filter-btn active" onclick="filterCategory('All')">All</button>
+          <button class="filter-btn" onclick="filterCategory('Popular')">Popular</button>
           <button class="filter-btn" onclick="filterCategory('Curry')">Curry</button>
           <button class="filter-btn" onclick="filterCategory('Bread')">Bread</button>
           <button class="filter-btn" onclick="filterCategory('Rice')">Rice</button>
