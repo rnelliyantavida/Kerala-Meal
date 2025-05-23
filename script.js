@@ -121,7 +121,7 @@ const routes = {
         <div class="review-form fade-in delay-1">
           <input type="text" id="reviewerName" placeholder="Your Name" required />
           <textarea id="reviewText" placeholder="Write your review..." required></textarea>
-          <button onclick="addReview()">Submit Review</button>
+          <button id="submitReview" onclick="addReview()" disabled>Submit Review</button>
         </div>
 
         <!-- Review Display Area -->
@@ -254,29 +254,29 @@ function filterMenu() {
     }
   });
 }
-function addReview() {
-  const name = document.getElementById("reviewerName").value.trim();
-  const text = document.getElementById("reviewText").value.trim();
-  const reviewList = document.getElementById("reviewList");
+// function addReview() {
+//   const name = document.getElementById("reviewerName").value.trim();
+//   const text = document.getElementById("reviewText").value.trim();
+//   const reviewList = document.getElementById("reviewList");
 
-  if (!name || !text) {
-    alert("Please fill in both your name and review.");
-    return;
-  }
+//   if (!name || !text) {
+//     alert("Please fill in both your name and review.");
+//     return;
+//   }
 
-  const reviewCard = document.createElement("div");
-  reviewCard.className = "review-card";
-  reviewCard.innerHTML = `
-    <p>“${text}”</p>
-    <span>– ${name}</span>
-  `;
+//   const reviewCard = document.createElement("div");
+//   reviewCard.className = "review-card";
+//   reviewCard.innerHTML = `
+//     <p>“${text}”</p>
+//     <span>– ${name}</span>
+//   `;
 
-  reviewList.prepend(reviewCard);
+//   reviewList.prepend(reviewCard);
 
-  // Clear form fields
-  document.getElementById("reviewerName").value = "";
-  document.getElementById("reviewText").value = "";
-}
+//   // Clear form fields
+//   document.getElementById("reviewerName").value = "";
+//   document.getElementById("reviewText").value = "";
+// }
 function addToCart(itemName) {
   cart.push(itemName);
   cartCount.textContent = cart.length;
@@ -321,10 +321,10 @@ function sendOrder() {
   window.open(`https://wa.me/91XXXXXXXXXX?text=${message}`, "_blank");
 }
 
-function router() {
-  const hash = location.hash.replace("#/", "") || "home";
-  app.innerHTML = routes[hash] ? routes[hash]() : routes.home();
-}
+// function router() {
+//   const hash = location.hash.replace("#/", "") || "home";
+//   app.innerHTML = routes[hash] ? routes[hash]() : routes.home();
+// }
 
 window.addEventListener("hashchange", router);
 window.addEventListener("load", router);
@@ -358,7 +358,18 @@ document.querySelectorAll(".navbar a").forEach((link) => {
 function router() {
   const hash = location.hash.replace("#/", "") || "home";
   app.innerHTML = routes[hash] ? routes[hash]() : routes.home();
-  setActiveLink(); // ← Call this here
+  setActiveLink();
+
+  if (hash === "review") {
+    fetchReviews();
+    const reviewerName = document.getElementById("reviewerName");
+    const reviewText = document.getElementById("reviewText");
+
+    if (reviewerName && reviewText) {
+      reviewerName.addEventListener("input", toggleSubmitButton);
+      reviewText.addEventListener("input", toggleSubmitButton);
+    }
+  }
 }
 
 window.addEventListener("hashchange", router);
@@ -414,7 +425,6 @@ const apiBase = "https://review-api-qvgb.onrender.com/api/reviews";
 let currentPage = 1;
 let totalPages = 1;
 
-// Fetch and render reviews for current page
 async function fetchReviews(page = 1) {
   try {
     const res = await fetch(`${apiBase}?page=${page}`);
@@ -428,10 +438,9 @@ async function fetchReviews(page = 1) {
   }
 }
 
-// Render reviews in the reviewList container
 function renderReviews(reviews) {
   const reviewList = document.getElementById("reviewList");
-  reviewList.innerHTML = ""; // clear previous
+  reviewList.innerHTML = "";
 
   if (reviews.length === 0) {
     reviewList.innerHTML = "<p>No reviews yet. Be the first to add one!</p>";
@@ -442,23 +451,25 @@ function renderReviews(reviews) {
     const reviewCard = document.createElement("div");
     reviewCard.className = "review-card";
     reviewCard.innerHTML = `
-        <p>“${escapeHtml(review.text)}”</p>
-        <span>– ${escapeHtml(review.name)}</span>
-      `;
+      <p>“${escapeHtml(review.text)}”</p>
+      <span>– ${escapeHtml(review.name)}</span>
+    `;
     reviewList.appendChild(reviewCard);
   });
 }
 
-// Update pagination buttons and info
 function updatePagination() {
-  document.getElementById(
-    "pageInfo"
-  ).textContent = `Page ${currentPage} of ${totalPages}`;
-  document.getElementById("prevPage").disabled = currentPage <= 1;
-  document.getElementById("nextPage").disabled = currentPage >= totalPages;
+  const pageInfo = document.getElementById("pageInfo");
+  const prevPage = document.getElementById("prevPage");
+  const nextPage = document.getElementById("nextPage");
+
+  if (pageInfo && prevPage && nextPage) {
+    pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+    prevPage.disabled = currentPage <= 1;
+    nextPage.disabled = currentPage >= totalPages;
+  }
 }
 
-// Change page by delta (-1 or +1)
 function changePage(delta) {
   const newPage = currentPage + delta;
   if (newPage >= 1 && newPage <= totalPages) {
@@ -466,22 +477,26 @@ function changePage(delta) {
   }
 }
 
-// Escape HTML to avoid XSS
 function escapeHtml(text) {
   const div = document.createElement("div");
   div.textContent = text;
   return div.innerHTML;
 }
 
-// Submit a new review
-async function addReview() {
+function toggleSubmitButton() {
   const name = document.getElementById("reviewerName").value.trim();
   const text = document.getElementById("reviewText").value.trim();
+  const button = document.getElementById("submitReview");
+  button.disabled = !(name && text);
+}
 
-  if (!name || !text) {
-    alert("Please enter both your name and review.");
-    return;
-  }
+async function addReview() {
+  const nameInput = document.getElementById("reviewerName");
+  const textInput = document.getElementById("reviewText");
+  const name = nameInput.value.trim();
+  const text = textInput.value.trim();
+
+  if (!name || !text) return;
 
   try {
     const res = await fetch(apiBase, {
@@ -492,18 +507,42 @@ async function addReview() {
 
     if (!res.ok) throw new Error("Failed to submit review");
 
-    // Clear form
-    document.getElementById("reviewerName").value = "";
-    document.getElementById("reviewText").value = "";
+    nameInput.value = "";
+    textInput.value = "";
+    toggleSubmitButton();
 
-    // Refresh reviews to show new one, assuming new reviews show on first page
     fetchReviews(1);
-    alert("Thank you for your review!");
+    showThankYouModal();
   } catch (error) {
     console.error("Error submitting review:", error);
-    alert("Failed to submit review, please try again.");
+    alert("Failed to submit review. Please try again.");
   }
 }
 
-// Initial fetch on page load
-fetchReviews();
+function showThankYouModal() {
+  const modal = document.createElement("div");
+  modal.className = "review-thankyou-modal";
+  modal.innerHTML = `
+    <div class="modal-inner">
+      <h2>🎉 Thank you for your review!</h2>
+      <p>We truly appreciate your feedback.</p>
+      <button onclick="closeThankYouModal()">Close</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function closeThankYouModal() {
+  const modal = document.querySelector(".review-thankyou-modal");
+  if (modal) modal.remove();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetchReviews();
+  document
+    .getElementById("reviewerName")
+    .addEventListener("input", toggleSubmitButton);
+  document
+    .getElementById("reviewText")
+    .addEventListener("input", toggleSubmitButton);
+});

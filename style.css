@@ -1031,3 +1031,100 @@ body {
     font-size: 20px;
   }
 }
+
+/* Review Thankyou Modal */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+.review-thankyou-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  font-family: "Poppins", sans-serif;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.review-thankyou-modal .modal-inner {
+  background: linear-gradient(to bottom right, #ffffff, #f0f8ff);
+  color: #333;
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.4s ease;
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.review-thankyou-modal .modal-inner h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.8rem;
+  word-wrap: break-word;
+}
+
+.review-thankyou-modal .modal-inner p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.2rem;
+}
+
+.review-thankyou-modal button {
+  padding: 0.6rem 1.5rem;
+  background: #009688;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+  display: block;
+}
+
+.review-thankyou-modal button:hover {
+  background: #00796b;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .review-thankyou-modal .modal-inner {
+    padding: 1.5rem;
+  }
+
+  .review-thankyou-modal .modal-inner h2 {
+    font-size: 1.4rem;
+  }
+
+  .review-thankyou-modal .modal-inner p {
+    font-size: 0.95rem;
+  }
+
+  .review-thankyou-modal button {
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+  }
+}
