@@ -134,18 +134,17 @@ const routes = {
       <section class="contact-section">
         <h1 class="sub-title fade-in">Get in <span>Touch</span></h1>
         <p class="fade-in delay-1">
-          We’re happy to take your orders and answer any questions! Reach out to us on WhatsApp or email for the best Kerala home-cooked meals.
+          We’re happy to take your orders and answer any questions! Reach out to us via call or email for the best Kerala home-cooked meals.
         </p>
         <div class="contact-info fade-in delay-2">
-          <p><strong>Email:</strong> <a href="mailto:contact@keralahomemeals.com">contact@keralahomemeals.com</a></p>
-          <p><strong>Phone:</strong> <a href="https://wa.me/91XXXXXXXXXX" target="_blank">+91-XXXXXXXXXX</a></p>
+          <p><strong>Email:</strong> <a href="mailto:contactkeralahomemeals@gmail.com">contactkeralahomemeals@gmail.com</a></p>
+          <p><strong>Phone:</strong> <a href="tel:2488264628">248-826-4628</a></p>
         </div>
         <div class="contact-buttons fade-in delay-3">
-          <a href="https://wa.me/91XXXXXXXXXX" class="btn-icon"><i class="bx bxl-whatsapp"></i> WhatsApp Us</a>
-          <a href="mailto:contact@keralahomemeals.com" class="btn-icon"><i class="bx bxl-gmail"></i> Send Email</a>
+          <a href="tel:2488264628" class="btn-icon"><i class="bx bx-phone-call"></i> Call Us</a>
+          <a href="mailto:contactkeralahomemeals@gmail.com" class="btn-icon"><i class="bx bxl-gmail"></i> Send Email</a>
         </div>
       </section>
-
   `,
   cart: () => {
     if (cart.length === 0) {
