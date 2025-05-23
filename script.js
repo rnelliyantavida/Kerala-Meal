@@ -35,18 +35,18 @@ const menuItems = [
   {
     name: "Kaai Pola",
     price: 10,
-    image: "./assets/kaaypola.png",
+    image: "./assets/kaaipola.png",
     description:
       "A delicious banana and egg dessert from Malabar, rich and sweet.",
     category: "Dessert",
   },
   {
-    name: "Malabar Curry with Porotta",
+    name: "Malabar Porotta",
     price: 8,
-    image: "./assets/porotta_curry.png",
+    image: "./assets/malabar porotta.png",
     description:
-      "Flaky Kerala-style porotta served with spicy, slow-cooked Malabar curry.",
-    category: "Curry",
+      "Flaky Kerala-style bread, perfect with curries or as a snack.",
+    category: "Bread",
   },
   {
     name: "Appam",
@@ -55,6 +55,22 @@ const menuItems = [
     description:
       "Soft and lacy fermented rice pancakes, perfect with any curry.",
     category: "Bread",
+  },
+  {
+    name: "Baby Goat Spicy Curry",
+    price: 9,
+    image: "./assets/Mutton_varattiyath.png",
+    description:
+      "spicy, slow-cooked Malabar curry with tender baby goat meat, served with rice or bread.",
+    category: "Curry",
+  },
+  {
+    name: "Puttu and Kadala",
+    price: 9,
+    image: "./assets/Putt and kadala.png",
+    description:
+      "Steamed rice cake layered with coconut, served with spicy black chickpeas.",
+    category: "Rice",
   },
 ];
 
